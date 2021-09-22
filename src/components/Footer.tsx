@@ -3,13 +3,14 @@ import { FOOTER_HEIGHT } from "../../_constants";
 import styled from "styled-components";
 
 import Logo from "./Logo";
+import { transparentize } from "polished";
 
 export default function Footer() {
   return (
     <Wrapper>
       <Container>
         <Logo />
-        <span>créditos</span>
+        <Credits>todos os direitos reservados</Credits>
       </Container>
     </Wrapper>
   );
@@ -33,4 +34,9 @@ const Container = styled.div`
   max-width: 848px;
   margin: auto;
   height: 100%;
+`;
+
+const Credits = styled.p`
+  font-size: 18px;
+  color: ${(props) => transparentize(0.6, props.theme.activeElementForeground)};
 `;

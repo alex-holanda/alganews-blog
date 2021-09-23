@@ -1,10 +1,14 @@
-import { Post, PostService } from "alex-holanda-sdk";
 import { GetServerSideProps } from "next";
 
+import { Post, PostService } from "alex-holanda-sdk";
+
 import styled from "styled-components";
+
 import FeaturedPost from "../components/FeaturedPost";
 import PostCart from "../components/PostCard";
+
 import sendToHomePage from "../core/utils/sendToHomePage";
+import PostsGrid from "../components/PostsGrid";
 
 interface HomeProps {
   posts?: Post.Paginated;
@@ -16,9 +20,11 @@ function Home(props: HomeProps) {
       {props.posts?.content && (
         <>
           <FeaturedPost postSummary={props.posts.content[0]} />
-          {props.posts.content.slice(1).map((post) => {
-            return <PostCart post={post} key={post.id} />;
-          })}
+          <PostsGrid>
+            {props.posts.content.slice(1).map((post) => {
+              return <PostCart post={post} key={post.id} />;
+            })}
+          </PostsGrid>
         </>
       )}
     </Wrapper>

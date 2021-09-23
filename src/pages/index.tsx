@@ -1,5 +1,6 @@
 import { Post, PostService } from "alex-holanda-sdk";
 import { GetServerSideProps } from "next";
+import { ServerResponse } from "http";
 
 import styled from "styled-components";
 import FeaturedPost from "../components/FeaturedPost";
@@ -20,11 +21,30 @@ function Home(props: HomeProps) {
 
 const Wrapper = styled.div``;
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  context
-) => {
-  const { page } = context.query;
+function sendToHomePage(res: ServerResponse) {
+  res.statusCode = 302;
+  res.setHeader("Location", "/?page=1");
+  return { props: {} };
+}
+
+export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
+  query,
+  res,
+}) => {
+  const { page: _page } = query;
+
+  const page = Number(_page);
+
+  if (isNaN(page) || page < 1) {
+    return sendToHomePage(res);
+  }
+
   const posts = await PostService.getAllPosts({ page: Number(page) - 1 });
+
+  if (!posts.content?.length) {
+    return sendToHomePage(res);
+  }
+
   return {
     props: {
       posts,

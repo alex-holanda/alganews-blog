@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Post } from "alex-holanda-sdk";
 
 import styled from "styled-components";
@@ -75,6 +74,10 @@ const Tags = styled.ul`
   list-style: none;
   display: flex;
   gap: 8px;
+
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const Tag = styled.li`

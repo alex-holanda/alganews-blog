@@ -67,10 +67,4 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  margin-top: 16px;
-`;
+const Wrapper = styled.div``;

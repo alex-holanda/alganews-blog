@@ -1,10 +1,11 @@
 import { Post, PostService } from "alex-holanda-sdk";
+import { GetServerSideProps } from "next";
 
 import styled from "styled-components";
 import FeaturedPost from "../components/FeaturedPost";
 
 interface HomeProps {
-  posts: Post.Paginated;
+  posts?: Post.Paginated;
 }
 
 function Home(props: HomeProps) {
@@ -19,13 +20,16 @@ function Home(props: HomeProps) {
 
 const Wrapper = styled.div``;
 
-export async function getServerSideProps() {
-  const posts = await PostService.getAllPosts({ page: 0 });
+export const getServerSideProps: GetServerSideProps<HomeProps> = async (
+  context
+) => {
+  const { page } = context.query;
+  const posts = await PostService.getAllPosts({ page: Number(page) - 1 });
   return {
     props: {
       posts,
     },
   };
-}
+};
 
 export default Home;

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import avatar from "../public/avatar.png";
+import avatar from "/public/avatar.png";
 
 import styled from "styled-components";
 import { useState } from "react";
@@ -14,7 +14,7 @@ export default function Avatar(props: AvatarProps) {
   return (
     <Wrapper>
       <StyledAvatar
-        src={avatar}
+        src={src}
         width={40}
         height={40}
         onError={(e) => {

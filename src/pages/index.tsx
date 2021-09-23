@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import styled from "styled-components";
 import FeaturedPost from "../components/FeaturedPost";
 
 const fakePost = {
@@ -21,14 +22,10 @@ const fakePost = {
   slug: "como-fazer-x-coisas-com-react-js",
   title: "Como fazer X coisas com React.js",
   imageUrls: {
-    default:
-      "https://storage.googleapis.com/alganews-files/posts/avatar-joao.jpeg",
-    small:
-      "https://storage.googleapis.com/alganews-files/posts/avatar-joao-small.jpeg",
-    medium:
-      "https://storage.googleapis.com/alganews-files/posts/avatar-joao-medium.jpeg",
-    large:
-      "https://storage.googleapis.com/alganews-files/posts/avatar-joao-large.jpeg",
+    default: "/laptop.jpg",
+    small: "/laptop.jpg",
+    medium: "/laptop.jpg",
+    large: "/laptop.jpg",
   },
   body: "Olá, hoje eu vou **mostrar** a como fazer X coisas com `react.js`\n",
   tags: ["JavaScript", "react", "redux"],
@@ -62,11 +59,18 @@ const fakePost = {
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <h2>Olá mundo</h2>
+    <Wrapper>
       <FeaturedPost postSummary={fakePost} />
-    </div>
+    </Wrapper>
   );
 };
 
 export default Home;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  margin-top: 16px;
+`;

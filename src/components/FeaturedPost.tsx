@@ -10,39 +10,65 @@ interface FeaturedPostProps {
 export default function FeaturedPost(props: FeaturedPostProps) {
   return (
     <Wrapper>
-      <Tags>
-        {props.postSummary.tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
-      </Tags>
-      <Editor>
-        <Avatar src={props.postSummary.imageUrls.small} />
-        <EditorDescription>
-          <EditorName>{props.postSummary.editor.name}</EditorName>
-          <PostDate>há 3 dias</PostDate>
-        </EditorDescription>
-      </Editor>
+      <BgImage bg={props.postSummary.imageUrls.medium} />
+      <Content>
+        <Tags>
+          {props.postSummary.tags.map((tag) => (
+            <Tag key={tag}>{tag}</Tag>
+          ))}
+        </Tags>
+        <Editor>
+          <Avatar src={props.postSummary.imageUrls.small} />
+          <EditorDescription>
+            <EditorName>{props.postSummary.editor.name}</EditorName>
+            <PostDate>há 3 dias</PostDate>
+          </EditorDescription>
+        </Editor>
 
-      <Title>{props.postSummary.title}</Title>
+        <Title>{props.postSummary.title}</Title>
+      </Content>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.primaryBackground};
-  color: ${(props) => props.theme.primaryForeground};
-  border-radius: ${(props) => props.theme.borderRadius};
-
-  padding: 32px;
+const Content = styled.div`
+  position: relative;
+  z-index: 1;
 
   gap: 24px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+const BgImage = styled.div<{ bg: string }>`
+  background-image: url(${(props) => props.bg});
+
+  position: absolute;
+  inset: 0;
+  background-color: blue;
+  z-index: 0;
+
+  opacity: 0.05;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+
+  background-color: ${(props) => props.theme.primaryBackground};
+  color: ${(props) => props.theme.primaryForeground};
+  border-radius: ${(props) => props.theme.borderRadius};
+
+  padding: 32px;
 
   width: 100%;
   min-height: 256px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
 `;
 
 const Tags = styled.ul`
@@ -57,8 +83,10 @@ const Tag = styled.li`
   border-radius: ${(props) => props.theme.borderRadius};
 
   text-transform: lowercase;
-  padding: 4px 12px;
+  padding: 4px 8px;
   cursor: default;
+
+  font-size: 12px;
 `;
 
 const Editor = styled.div`

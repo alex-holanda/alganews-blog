@@ -1,8 +1,7 @@
 import { GetServerSideProps } from "next";
+import Router from "next/router";
 
 import { Post, PostService } from "alex-holanda-sdk";
-
-import styled from "styled-components";
 
 import FeaturedPost from "../components/FeaturedPost";
 import PostCart from "../components/PostCard";
@@ -10,6 +9,7 @@ import PostCart from "../components/PostCard";
 import sendToHomePage from "../core/utils/sendToHomePage";
 import PostsGrid from "../components/PostsGrid";
 import PageGrid from "../components/PageGrid";
+import ReactPaginate from "react-paginate";
 
 interface HomeProps {
   posts?: Post.Paginated;
@@ -28,6 +28,17 @@ function Home(props: HomeProps) {
           </PostsGrid>
         </>
       )}
+      <ReactPaginate
+        pageCount={props.posts?.totalPages || 0}
+        marginPagesDisplayed={0}
+        pageRangeDisplayed={3}
+        previousLabel={"<"}
+        nextLabel={">"}
+        hrefBuilder={(page) => `/?page=${page}`}
+        onPageChange={(page) => {
+          Router.push(`/?page=${page.selected + 1}`);
+        }}
+      />
     </PageGrid>
   );
 }
@@ -46,6 +57,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
 
   const posts = await PostService.getAllPosts({
     page: Number(page) - 1,
+    size: 2,
     showAll: true,
   });
 

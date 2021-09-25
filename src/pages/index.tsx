@@ -9,6 +9,7 @@ import PostCart from "../components/PostCard";
 
 import sendToHomePage from "../core/utils/sendToHomePage";
 import PostsGrid from "../components/PostsGrid";
+import PageGrid from "../components/PageGrid";
 
 interface HomeProps {
   posts?: Post.Paginated;
@@ -16,7 +17,7 @@ interface HomeProps {
 
 function Home(props: HomeProps) {
   return (
-    <Wrapper>
+    <PageGrid>
       {props.posts?.content && (
         <>
           <FeaturedPost postSummary={props.posts.content[0]} />
@@ -27,13 +28,9 @@ function Home(props: HomeProps) {
           </PostsGrid>
         </>
       )}
-    </Wrapper>
+    </PageGrid>
   );
 }
-
-const Wrapper = styled.div`
-  gap: 16px;
-`;
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
   query,

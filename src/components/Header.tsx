@@ -23,9 +23,14 @@ const Wrapper = styled.div`
 
   width: 100%;
   height: ${HEADER_HEIGHT}px;
+
+  position: fixed;
+  z-index: 10;
 `;
 
 const Container = styled.div`
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: space-between;

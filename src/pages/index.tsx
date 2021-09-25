@@ -12,7 +12,7 @@ import PageGrid from "../components/PageGrid";
 import ReactPaginate from "react-paginate";
 
 interface HomeProps {
-  posts?: Post.Paginated;
+  posts?: Post.Paginated & { number?: number };
 }
 
 function Home(props: HomeProps) {
@@ -26,19 +26,21 @@ function Home(props: HomeProps) {
               return <PostCart post={post} key={post.id} />;
             })}
           </PostsGrid>
+          <ReactPaginate
+            containerClassName={"Pagination"}
+            pageCount={props.posts.totalPages}
+            marginPagesDisplayed={0}
+            pageRangeDisplayed={3}
+            previousLabel={"<"}
+            nextLabel={">"}
+            hrefBuilder={(page) => `/?page=${page}`}
+            onPageChange={(page) => {
+              Router.push(`/?page=${page.selected + 1}`);
+            }}
+            initialPage={props.posts.number}
+          />
         </>
       )}
-      <ReactPaginate
-        pageCount={props.posts?.totalPages || 0}
-        marginPagesDisplayed={0}
-        pageRangeDisplayed={3}
-        previousLabel={"<"}
-        nextLabel={">"}
-        hrefBuilder={(page) => `/?page=${page}`}
-        onPageChange={(page) => {
-          Router.push(`/?page=${page.selected + 1}`);
-        }}
-      />
     </PageGrid>
   );
 }
@@ -55,11 +57,10 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
     return sendToHomePage(res);
   }
 
-  const posts = await PostService.getAllPosts({
-    page: Number(page) - 1,
-    size: 2,
-    showAll: true,
-  });
+  const posts: Post.Paginated & { number?: number } =
+    await PostService.getAllPosts({
+      page: Number(page) - 1,
+    });
 
   if (!posts.content?.length) {
     return sendToHomePage(res);

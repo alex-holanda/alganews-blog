@@ -15,7 +15,7 @@ export default function Content(props: ContentProps) {
 }
 
 const Wrapper = styled.div`
-  min-height: calc(100vh - ${FOOTER_HEIGHT}px);
+  min-height: calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
   padding-top: ${HEADER_HEIGHT}px;
 `;
 

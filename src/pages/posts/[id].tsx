@@ -3,11 +3,11 @@ import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 
 interface PostPageProps {
-  post: Post.Detailed;
+  post?: Post.Detailed;
 }
 
-export default function PostPage({ post }: PostPageProps) {
-  return <div>{post.title}</div>;
+export default function PostPage(props: PostPageProps) {
+  return <div>{props.post?.title}</div>;
 }
 
 interface Params extends ParsedUrlQuery {
@@ -16,22 +16,28 @@ interface Params extends ParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
   async ({ params }) => {
-    if (!params) {
-      return { notFound: true };
+    try {
+      if (!params) {
+        return { notFound: true };
+      }
+
+      const { id } = params;
+      const postId = Number(id);
+
+      if (isNaN(postId)) {
+        return { notFound: true };
+      }
+
+      const post = await PostService.getExistingPost(postId);
+
+      return {
+        props: {
+          post,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {},
+      };
     }
-
-    const { id } = params;
-    const postId = Number(id);
-
-    if (isNaN(postId)) {
-      return { notFound: true };
-    }
-
-    const post = await PostService.getExistingPost(postId);
-
-    return {
-      props: {
-        post,
-      },
-    };
   };

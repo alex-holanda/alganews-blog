@@ -1,4 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
+import Image from "next/image";
+import Head from "next/head";
 
 import { Post, PostService, ResourceNotFoundError } from "alex-holanda-sdk";
 
@@ -6,10 +8,45 @@ import { ParsedUrlQuery } from "querystring";
 
 interface PostPageProps extends NextPageProps {
   post?: Post.Detailed;
+  host?: string;
 }
 
 const PostPage: NextPage<PostPageProps> = (props) => {
-  return <div>{props.post?.title}</div>;
+  const { post } = props;
+  if (!post) {
+    return <>Carregando...</>;
+  }
+  return (
+    <>
+      <Head>
+        <link
+          rel="canonical"
+          href={`http://${props.host}/${post.id}/${post.slug}`}
+        />
+      </Head>
+      <div>
+        <header>
+          <Image
+            src={post?.imageUrls.large}
+            width={200}
+            height={200}
+            alt={post?.title}
+          />
+
+          <Image
+            src={post.editor.avatarUrls.small}
+            width={64}
+            height={64}
+            alt={post.editor.name}
+          />
+
+          <p>há 3 horas</p>
+
+          <h1>{post.title}</h1>
+        </header>
+      </div>
+    </>
+  );
 };
 
 interface Params extends ParsedUrlQuery {
@@ -18,7 +55,7 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
-  async ({ params, res }) => {
+  async ({ params, req }) => {
     try {
       if (!params) return { notFound: true };
 
@@ -29,15 +66,10 @@ export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
 
       const post = await PostService.getExistingPost(postId);
 
-      if (slug !== post.slug) {
-        res.statusCode = 301;
-        res.setHeader("Location", `/posts/${post.id}/${post.slug}`);
-        // return { props: {} };
-      }
-
       return {
         props: {
           post,
+          host: req.headers.host,
         },
       };
     } catch (err: any) {

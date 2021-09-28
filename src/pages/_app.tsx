@@ -1,4 +1,5 @@
 import type { AppProps as NextAppProps } from "next/app";
+import Error from "next/error";
 
 import { ThemeProvider } from "styled-components";
 import { light } from "../styles/theme";
@@ -18,9 +19,10 @@ type AppProps<P = any> = {
 function MyApp({ Component, pageProps }: AppProps<CustomAppProps>) {
   if (pageProps.error) {
     return (
-      <div>
-        <h1>{pageProps.error.message}</h1>
-      </div>
+      <Error
+        statusCode={pageProps.error.statusCode}
+        title={pageProps.error.message}
+      />
     );
   }
   return (

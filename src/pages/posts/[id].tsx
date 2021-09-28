@@ -38,6 +38,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
         props: {
           error: {
             message: err.message,
+            statusCode: err.data?.status || 500,
           },
         },
       };

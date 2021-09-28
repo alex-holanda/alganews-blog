@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "alex-holanda-sdk": "^2.7.0",
+    "alex-holanda-sdk": "^2.8.0",
     "babel-plugin-styled-components": "^1.13.2",
     "next": "11.1.2",
     "polished": "^4.1.3",

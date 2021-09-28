@@ -1,14 +1,21 @@
-import { Post, PostService } from "alex-holanda-sdk";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
+
+import { Post, PostService, GenericError } from "alex-holanda-sdk";
+
 import { ParsedUrlQuery } from "querystring";
 
 interface PostPageProps {
   post?: Post.Detailed;
+  error?: {
+    message: string;
+  };
 }
 
-export default function PostPage(props: PostPageProps) {
+const PostPage: NextPage<PostPageProps> = (props) => {
+  if (props.error)
+    return <div style={{ color: "red" }}>{props.error.message}</div>;
   return <div>{props.post?.title}</div>;
-}
+};
 
 interface Params extends ParsedUrlQuery {
   id: string;
@@ -17,16 +24,12 @@ interface Params extends ParsedUrlQuery {
 export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
   async ({ params }) => {
     try {
-      if (!params) {
-        return { notFound: true };
-      }
+      if (!params) return { notFound: true };
 
       const { id } = params;
       const postId = Number(id);
 
-      if (isNaN(postId)) {
-        return { notFound: true };
-      }
+      if (isNaN(postId)) return { notFound: true };
 
       const post = await PostService.getExistingPost(postId);
 
@@ -35,9 +38,15 @@ export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
           post,
         },
       };
-    } catch (err) {
+    } catch (err: any) {
       return {
-        props: {},
+        props: {
+          error: {
+            message: err.message,
+          },
+        },
       };
     }
   };
+
+export default PostPage;

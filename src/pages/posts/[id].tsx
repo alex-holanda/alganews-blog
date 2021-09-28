@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 
-import { Post, PostService, GenericError } from "alex-holanda-sdk";
+import { Post, PostService, ResourceNotFoundError } from "alex-holanda-sdk";
 
 import { ParsedUrlQuery } from "querystring";
 
@@ -34,6 +34,10 @@ export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
         },
       };
     } catch (err: any) {
+      if (err instanceof ResourceNotFoundError) {
+        return { notFound: true };
+      }
+
       return {
         props: {
           error: {

@@ -4,16 +4,11 @@ import { Post, PostService, GenericError } from "alex-holanda-sdk";
 
 import { ParsedUrlQuery } from "querystring";
 
-interface PostPageProps {
+interface PostPageProps extends NextPageProps {
   post?: Post.Detailed;
-  error?: {
-    message: string;
-  };
 }
 
 const PostPage: NextPage<PostPageProps> = (props) => {
-  if (props.error)
-    return <div style={{ color: "red" }}>{props.error.message}</div>;
   return <div>{props.post?.title}</div>;
 };
 

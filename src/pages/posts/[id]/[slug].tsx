@@ -1,10 +1,10 @@
 import { GetServerSideProps, NextPage } from "next";
-import Image from "next/image";
 import Head from "next/head";
 
 import { Post, PostService, ResourceNotFoundError } from "alex-holanda-sdk";
 
 import { ParsedUrlQuery } from "querystring";
+import PostHeader from "../../../components/PostHeader";
 
 interface PostPageProps extends NextPageProps {
   post?: Post.Detailed;
@@ -12,39 +12,24 @@ interface PostPageProps extends NextPageProps {
 }
 
 const PostPage: NextPage<PostPageProps> = (props) => {
-  const { post } = props;
-  if (!post) {
-    return <>Carregando...</>;
-  }
   return (
     <>
       <Head>
         <link
           rel="canonical"
-          href={`http://${props.host}/${post.id}/${post.slug}`}
+          href={`http://${props.host}/${props.post?.id}/${props.post?.slug}`}
         />
       </Head>
-      <div>
-        <header>
-          <Image
-            src={post?.imageUrls.large}
-            width={200}
-            height={200}
-            alt={post?.title}
+      <>
+        {props.post && (
+          <PostHeader
+            thumbnail={props.post.imageUrls.large}
+            editor={props.post.editor}
+            createdAt={props.post.createdAt}
+            title={props.post.title}
           />
-
-          <Image
-            src={post.editor.avatarUrls.small}
-            width={64}
-            height={64}
-            alt={post.editor.name}
-          />
-
-          <p>há 3 horas</p>
-
-          <h1>{post.title}</h1>
-        </header>
-      </div>
+        )}
+      </>
     </>
   );
 };

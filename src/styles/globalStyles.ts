@@ -74,4 +74,79 @@ export default createGlobalStyle`
       }
     }
   }
+
+  .MarkdownRenderer {
+    max-width: 680px;
+    margin: 48px auto;
+
+    > * {
+      &:not(:last-child) {
+        margin-bottom: 24px;
+      }
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 36px;
+    }
+
+    ul {
+      font-size: 18px;
+      line-height: 36px;
+      margin-left: 32px;
+    }
+
+    h2 {
+      font-size: 48px;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 36px;
+      font-weight: 500;
+    }
+
+    h4 {
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    h5 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    h6 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    a {
+      color: ${(props) => props.theme.primaryBackground};
+      text-decoration: none;
+
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
+    }
+
+    code:not([class^='language']) {
+      color: ${(props) => props.theme.pageBackground};
+      background-color: ${(props) => props.theme.pageForeground};
+      border-radius: ${(props) => props.theme.borderRadius};
+      padding: 4px 8px;
+
+      font-family: 'roboto mono', monospace;
+      font-weight: 300;
+      font-size: 14px;
+
+      white-space: nowrap;
+    }
+
+    img {
+      max-width: 100%;
+
+    }
+
+  }
 `;

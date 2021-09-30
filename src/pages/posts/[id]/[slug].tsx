@@ -5,6 +5,7 @@ import { Post, PostService, ResourceNotFoundError } from "alex-holanda-sdk";
 
 import { ParsedUrlQuery } from "querystring";
 import PostHeader from "../../../components/PostHeader";
+import Markdown from "../../../components/Markdown";
 
 interface PostPageProps extends NextPageProps {
   post?: Post.Detailed;
@@ -20,16 +21,18 @@ const PostPage: NextPage<PostPageProps> = (props) => {
           href={`http://${props.host}/${props.post?.id}/${props.post?.slug}`}
         />
       </Head>
-      <>
-        {props.post && (
+
+      {props.post && (
+        <>
           <PostHeader
             thumbnail={props.post.imageUrls.large}
             editor={props.post.editor}
             createdAt={props.post.createdAt}
             title={props.post.title}
           />
-        )}
-      </>
+          <Markdown>{props.post.body}</Markdown>
+        </>
+      )}
     </>
   );
 };

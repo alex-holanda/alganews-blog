@@ -4,6 +4,7 @@ import { Post } from "alex-holanda-sdk";
 
 import styled from "styled-components";
 import { transparentize } from "polished";
+import formatPostDate from "../core/utils/formatPostDate";
 
 interface PostHeaderProps {
   thumbnail: string;
@@ -35,7 +36,7 @@ export default function PostHeader(props: PostHeaderProps) {
         />
       </Editor>
 
-      <PublishDate>{props.createdAt}</PublishDate>
+      <PublishDate>{formatPostDate(props.createdAt)}</PublishDate>
 
       <Title>{props.title}</Title>
     </Wrapper>
@@ -51,10 +52,11 @@ const Wrapper = styled.header`
   gap: 16px;
 
   pointer-events: none;
+
+  text-align: center;
 `;
 
 const Thumbnail = styled.div`
-  height: 256px;
   width: 100%;
 
   border-top-left-radius: ${(props) => props.theme.borderRadius};
@@ -62,12 +64,17 @@ const Thumbnail = styled.div`
 
   overflow: hidden;
   object-fit: cover;
+
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const Editor = styled.div`
   position: relative;
 
-  margin-top: -58px;
+  margin-top: -52px;
   border-radius: 32px;
 
   height: 64px;

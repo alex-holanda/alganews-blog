@@ -5,6 +5,7 @@ import { Post } from "alex-holanda-sdk";
 import styled from "styled-components";
 import Avatar from "./Avatar";
 import { transparentize } from "polished";
+import formatPostDate from "../core/utils/formatPostDate";
 
 interface FeaturedPostProps {
   postSummary: Post.Summary;
@@ -27,7 +28,7 @@ export default function FeaturedPost(props: FeaturedPostProps) {
             <Avatar src={props.postSummary.imageUrls.small} />
             <EditorDescription>
               <EditorName>{props.postSummary.editor.name}</EditorName>
-              <PostDate>há 3 dias</PostDate>
+              <PostDate>{formatPostDate(props.postSummary.createdAt)}</PostDate>
             </EditorDescription>
           </Editor>
 

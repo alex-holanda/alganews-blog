@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Post } from "alex-holanda-sdk";
 import { transparentize } from "polished";
 import styled from "styled-components";
+import formatPostDate from "../core/utils/formatPostDate";
 
 interface PostCardProps {
   post: Post.Summary;
@@ -22,7 +23,7 @@ export default function PostCart(props: PostCardProps) {
             />
           </Editor>
 
-          <PublishDate>há 3 dias</PublishDate>
+          <PublishDate>{formatPostDate(props.post.createdAt)}</PublishDate>
 
           <Title>{props.post.title}</Title>
         </Info>

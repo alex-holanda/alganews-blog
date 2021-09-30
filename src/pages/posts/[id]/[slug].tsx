@@ -20,6 +20,18 @@ const PostPage: NextPage<PostPageProps> = (props) => {
           rel="canonical"
           href={`http://${props.host}/${props.post?.id}/${props.post?.slug}`}
         />
+
+        <meta property="og:title" content={props.post?.title} />
+        <meta property="og:site_name" content={"alganews"} />
+        <meta property="og:url" content={"alganews.com"} />
+        <meta
+          property="og:description"
+          content={props.post?.body.slice(0, 54)}
+        />
+        <meta property="og:type" content={"article"} />
+        <meta property="og:image" content={props.post?.imageUrls.medium} />
+
+        <title>{props.post?.title} - AlgaNews</title>
       </Head>
 
       {props.post && (

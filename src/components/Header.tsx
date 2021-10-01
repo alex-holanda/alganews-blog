@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { transparentize } from "polished";
-import { HEADER_HEIGHT } from "../../_constants";
+import { HEADER_HEIGHT, MOBILE_HEADER_HEIGHT } from "../../_constants";
 import Logo from "./Logo";
 import Navbar from "./Navbar";
 
@@ -26,6 +26,10 @@ const Wrapper = styled.div`
 
   position: fixed;
   z-index: 10;
+
+  @media screen and (max-width: 767px) {
+    height: ${MOBILE_HEADER_HEIGHT}px;
+  }
 `;
 
 const Container = styled.div`
@@ -40,4 +44,11 @@ const Container = styled.div`
   height: 100%;
 
   padding: 0 16px;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 12px;
+  }
 `;

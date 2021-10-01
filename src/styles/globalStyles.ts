@@ -148,5 +148,18 @@ export default createGlobalStyle`
 
     }
 
+    pre {
+
+      color: ${(props) => props.theme.pageBackground};
+      background-color: ${(props) => props.theme.pageForeground};
+      border-radius: ${(props) => props.theme.borderRadius};
+
+      overflow-x: auto;
+
+      > code {
+        display: inline-block;
+        white-space: inherit !important;
+      }
+    }
   }
 `;

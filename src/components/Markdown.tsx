@@ -13,7 +13,7 @@ const components: Components = {
         style={okaidia}
         language={match[1]}
         PreTag="div"
-        {...props}
+        // {...props}
       >
         {String(children).replace(/\n$/, "")}
       </SyntaxHighlighter>

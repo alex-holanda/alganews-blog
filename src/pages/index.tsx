@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import Router from "next/router";
 
 import { Post, PostService } from "alex-holanda-sdk";
@@ -17,31 +18,36 @@ interface HomeProps {
 
 function Home(props: HomeProps) {
   return (
-    <PageGrid>
-      {props.posts?.content && (
-        <>
-          <FeaturedPost postSummary={props.posts.content[0]} />
-          <PostsGrid>
-            {props.posts.content.slice(1).map((post) => {
-              return <PostCart post={post} key={post.id} />;
-            })}
-          </PostsGrid>
-          <ReactPaginate
-            containerClassName={"Pagination"}
-            pageCount={props.posts.totalPages}
-            marginPagesDisplayed={0}
-            pageRangeDisplayed={3}
-            previousLabel={"<"}
-            nextLabel={">"}
-            hrefBuilder={(page) => `/?page=${page}`}
-            onPageChange={(page) => {
-              Router.push(`/?page=${page.selected + 1}`);
-            }}
-            initialPage={props.posts.number}
-          />
-        </>
-      )}
-    </PageGrid>
+    <>
+      <Head>
+        <title>AlgaNews | home</title>
+      </Head>
+      <PageGrid>
+        {props.posts?.content && (
+          <>
+            <FeaturedPost postSummary={props.posts.content[0]} />
+            <PostsGrid>
+              {props.posts.content.slice(1).map((post) => {
+                return <PostCart post={post} key={post.id} />;
+              })}
+            </PostsGrid>
+            <ReactPaginate
+              containerClassName={"Pagination"}
+              pageCount={props.posts.totalPages}
+              marginPagesDisplayed={0}
+              pageRangeDisplayed={3}
+              previousLabel={"<"}
+              nextLabel={">"}
+              hrefBuilder={(page) => `/?page=${page}`}
+              onPageChange={(page) => {
+                Router.push(`/?page=${page.selected + 1}`);
+              }}
+              initialPage={props.posts.number}
+            />
+          </>
+        )}
+      </PageGrid>
+    </>
   );
 }
 

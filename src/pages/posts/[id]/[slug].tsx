@@ -3,6 +3,8 @@ import Head from "next/head";
 
 import { Post, PostService, ResourceNotFoundError } from "alex-holanda-sdk";
 
+import { DiscussionEmbed } from "disqus-react";
+
 import { ParsedUrlQuery } from "querystring";
 import PostHeader from "../../../components/PostHeader";
 import Markdown from "../../../components/Markdown";
@@ -43,6 +45,16 @@ const PostPage: NextPage<PostPageProps> = (props) => {
             title={props.post.title}
           />
           <Markdown>{props.post.body}</Markdown>
+
+          <DiscussionEmbed
+            shortname="alganews-4"
+            config={{
+              url: `http://${props.host}/${props.post?.id}/${props.post?.slug}`,
+              identifier: String(props.post.id),
+              title: props.post.title,
+              language: "pt_BR",
+            }}
+          />
         </>
       )}
     </>

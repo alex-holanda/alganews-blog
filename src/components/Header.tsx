@@ -25,6 +25,9 @@ const Wrapper = styled.div`
   height: ${HEADER_HEIGHT}px;
 
   position: fixed;
+  top: 0;
+  left: 0;
+
   z-index: 10;
 
   @media screen and (max-width: 767px) {

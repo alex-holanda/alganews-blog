@@ -66,38 +66,42 @@ interface Params extends ParsedUrlQuery {
   slug: string;
 }
 
-export const getServerSideProps: GetServerSideProps<PostPageProps, Params> =
-  async ({ params, req }) => {
-    try {
-      if (!params) return { notFound: true };
+export const getServerSideProps: GetServerSideProps<
+  PostPageProps,
+  Params
+> = async ({ params, req, query }) => {
+  try {
+    if (!params) return { notFound: true };
 
-      const { id, slug } = params;
-      const postId = Number(id);
+    const { id, slug } = params;
+    const postId = Number(id);
 
-      if (isNaN(postId)) return { notFound: true };
+    const { token } = query;
 
-      const post = await PostService.getExistingPost(postId);
+    if (isNaN(postId)) return { notFound: true };
 
-      return {
-        props: {
-          post,
-          host: req.headers.host,
-        },
-      };
-    } catch (err: any) {
-      if (err instanceof ResourceNotFoundError) {
-        return { notFound: true };
-      }
+    const post = await PostService.getExistingPost(postId, token as string);
 
-      return {
-        props: {
-          error: {
-            message: err.message,
-            statusCode: err.data?.status || 500,
-          },
-        },
-      };
+    return {
+      props: {
+        post,
+        host: req.headers.host,
+      },
+    };
+  } catch (err: any) {
+    if (err instanceof ResourceNotFoundError) {
+      return { notFound: true };
     }
-  };
+
+    return {
+      props: {
+        error: {
+          message: err.message,
+          statusCode: err.data?.status || 500,
+        },
+      },
+    };
+  }
+};
 
 export default PostPage;
